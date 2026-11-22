@@ -1,0 +1,9 @@
+{
+  "notice": "SYNTHETIC SAMPLE DATA ONLY — not live YouTube metrics",
+  "videos": [
+    {"video_id":"sample-a","channel_id":"sample-channel","views":1000,"source_url":"https://youtube.com/watch?v=sample-a","retrieved_at":"2026-11-22"},
+    {"video_id":"sample-b","channel_id":"sample-channel","views":1200,"source_url":"https://youtube.com/watch?v=sample-b","retrieved_at":"2026-11-22"},
+    {"video_id":"sample-c","channel_id":"sample-channel","views":8500,"source_url":"https://youtube.com/watch?v=sample-c","retrieved_at":"2026-11-22"},
+    {"video_id":"sample-d","channel_id":"sample-channel","views":1100,"source_url":"https://youtube.com/watch?v=sample-d","retrieved_at":"2026-11-22"}
+  ]
+}
