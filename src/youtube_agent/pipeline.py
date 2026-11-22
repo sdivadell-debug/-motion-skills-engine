@@ -13,7 +13,7 @@ from .seo import draft_metadata
 from .analytics import analyze_performance
 from .learning_loop import create_learning_record
 from .community import classify_comments
-from .weekly_planner import build_week_plan
+from .weekly_planner import build_week_plan\nfrom .ai_prompts import pipeline_review_prompt\nfrom .ai_provider import generate_json, ProviderError
 
 HANDLERS = {
  "channel_profile": lambda d: {"errors":validate_channel_profile(d.get("profile",{})),"valid":not validate_channel_profile(d.get("profile",{}))},
@@ -47,5 +47,5 @@ def execute_pipeline(payload:dict[str,Any])->dict[str,Any]:
    stages[name]={"status":"complete","result":handler(payload)}
   except (ValueError,TypeError,KeyError) as exc:
    stages[name]={"status":"blocked","error":str(exc)}
- stages["creator_review"]={"status":"approval_required","note":"Human review is required before external side effects."}
+ if payload.get("ai_review") is True:\n  try:\n   review_input={"topic":topic,"stages":stages}\n   stages["ai_review"]={"status":"complete","result":generate_json(pipeline_review_prompt(review_input))}\n  except ProviderError as exc:\n   stages["ai_review"]={"status":"blocked","error":str(exc)}\n stages["creator_review"]={"status":"approval_required","note":"Human review is required before external side effects."}
  return {"topic":topic,"stages":stages,"external_actions":"disabled","approval_required":True,"publishing":"disabled"}
