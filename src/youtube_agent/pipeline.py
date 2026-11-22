@@ -5,13 +5,13 @@ from typing import Any
 from .profile import validate_channel_profile
 from .research import research_brief
 from .outliers import analyze_outliers
-from .idea_scoring import Idea, rank_ideas
+from .idea_scoring import Idea, rank_ideas\nfrom .script_studio import build_script\nfrom .packaging import create_packaging_brief
 
 HANDLERS = {
     "channel_profile": lambda data: {"errors": validate_channel_profile(data.get("profile", {})), "valid": not validate_channel_profile(data.get("profile", {}))},
     "research": lambda data: research_brief(data.get("topic", ""), data.get("research_items", [])),
     "competitor_research": lambda data: {"results": analyze_outliers(data.get("competitor_videos", [])), "notice": "Analyzes supplied data only; no live discovery."},
-    "idea_lab": lambda data: {"ranked_ideas": rank_ideas([Idea(**item) for item in data.get("ideas", [])])},
+    "idea_lab": lambda data: {"ranked_ideas": rank_ideas([Idea(**item) for item in data.get("ideas", [])])},\n    "script_studio": lambda data: build_script(data["topic"], data.get("audience", ""), data.get("angle", ""), data.get("research_items", []), data.get("duration_minutes", 8)),\n    "packaging": lambda data: create_packaging_brief(data["topic"], data.get("angle", ""), data.get("audience", "")),
 }
 
 
