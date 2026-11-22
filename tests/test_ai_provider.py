@@ -26,6 +26,22 @@ class AIProviderTests(unittest.TestCase):
             with self.assertRaises(ProviderError):
                 generate_json("prompt")
 
+    def test_rejects_non_object_json(self):
+        class FakeResponse:
+            def __enter__(self):
+                return self
+            def __exit__(self, *args):
+                return False
+            def read(self):
+                response = {"choices": [{"message": {"content": "[1, 2]"}}]}
+                return json.dumps(response).encode()
+
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "test"}, clear=True), patch(
+            "youtube_agent.ai_provider.urlopen", return_value=FakeResponse()
+        ):
+            with self.assertRaises(ProviderError):
+                generate_json("prompt")
+
     def test_parses_json_response(self):
         class FakeResponse:
             def __enter__(self):
