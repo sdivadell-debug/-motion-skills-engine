@@ -13,3 +13,4 @@ where = ["src"]
 
 [project.scripts]
 youtube-competitor-analysis = "youtube_agent.competitor_cli:main"
+youtube-competitor-fetch = "youtube_agent.competitor_fetch:main"
