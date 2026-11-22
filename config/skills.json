@@ -2,17 +2,65 @@
   "schema_version": 1,
   "project": "youtube-agent-engine",
   "skills": [
-    {"id":"channel-profile","phase":1,"status":"planned"},
-    {"id":"research","phase":2,"status":"planned"},
-    {"id":"idea-lab","phase":2,"status":"planned"},
-    {"id":"script-studio","phase":2,"status":"planned"},
-    {"id":"packaging","phase":2,"status":"planned"},
-    {"id":"production-editor","phase":3,"status":"planned"},
-    {"id":"shorts-cutter","phase":3,"status":"planned"},
-    {"id":"seo-publisher","phase":3,"status":"planned"},
-    {"id":"community","phase":3,"status":"planned"},
-    {"id":"analytics","phase":3,"status":"planned"},
-    {"id":"learning-loop","phase":4,"status":"planned"},
-    {"id":"weekly-planner","phase":2,"status":"planned"}
+    {
+      "id": "channel-profile",
+      "phase": 1,
+      "status": "planned"
+    },
+    {
+      "id": "research",
+      "phase": 2,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "idea-lab",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "script-studio",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "packaging",
+      "phase": 2,
+      "status": "planned"
+    },
+    {
+      "id": "production-editor",
+      "phase": 3,
+      "status": "planned"
+    },
+    {
+      "id": "shorts-cutter",
+      "phase": 3,
+      "status": "planned"
+    },
+    {
+      "id": "seo-publisher",
+      "phase": 3,
+      "status": "planned"
+    },
+    {
+      "id": "community",
+      "phase": 3,
+      "status": "planned"
+    },
+    {
+      "id": "analytics",
+      "phase": 3,
+      "status": "planned"
+    },
+    {
+      "id": "learning-loop",
+      "phase": 4,
+      "status": "planned"
+    },
+    {
+      "id": "weekly-planner",
+      "phase": 2,
+      "status": "planned"
+    }
   ]
 }
