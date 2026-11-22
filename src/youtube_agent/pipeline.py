@@ -29,7 +29,7 @@ HANDLERS = {
  "seo_publisher":lambda d:{"metadata":draft_metadata(d["topic"],d.get("description_facts",[]),d.get("keywords",[])),"chapters":draft_chapters(d.get("transcript_segments",[]))},
  "analytics":lambda d:analyze_performance(d.get("performance_videos",[])),
  "learning_loop":lambda d:create_learning_record(d["observation"],d["hypothesis"],d["next_test"],d.get("evidence",[])),
- "community":lambda d:[{**item,"suggested_category":classify_comment(item["text"])} for item in classify_comments(d.get("comments",[]))],
+ "community":lambda d:[{**item,"suggested_category":classify_comment(item["comment"])} for item in classify_comments(d.get("comments",[]))],
  "weekly_planner":lambda d:build_week_plan(d.get("tasks",[]),d.get("weekly_capacity",5)),
 }
 
