@@ -15,4 +15,4 @@ where = ["src"]
 youtube-competitor-analysis = "youtube_agent.competitor_cli:main"
 youtube-competitor-fetch = "youtube_agent.competitor_fetch:main"
 youtube-workflow-plan = "youtube_agent.workflow_cli:main"
-youtube-pipeline = "youtube_agent.pipeline_cli:main"
+youtube-pipeline = "youtube_agent.pipeline_cli:main"\nyoutube-agent-ai = "youtube_agent.ai_cli:main"
