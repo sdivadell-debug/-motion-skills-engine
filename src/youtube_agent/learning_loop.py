@@ -1,5 +1,5 @@
 """Capture observations and hypotheses from performance reviews."""
-from __future__ import annotations__
+from __future__ import annotations
 
 def create_learning_record(observation: str, hypothesis: str, next_test: str, evidence: list[str] | None = None) -> dict:
     fields=(observation,hypothesis,next_test)
