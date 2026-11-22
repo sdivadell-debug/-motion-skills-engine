@@ -89,7 +89,7 @@ Each specialist's operating instructions are in `skills/<skill-id>/SKILL.md`. Th
 See [architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md), and [skill registry](config/skills.json).
 
 
-## External 11-skill integration
+## Newly integrated editorial utilities\n\nPipeline output now includes five hook alternatives per topic, chapter drafts derived only from supplied timecodes, and basic comment triage labels. These are deterministic helpers, not predictive models; chapter times are never fabricated and comment labels are review aids.\n\n## External 11-skill integration
 
 The integration playbook maps an 11-specialist YouTube team into these existing engine stages without duplicating skills. It defines deliverables, approval gates, and minimum release checks. See [integration playbook](docs/INTEGRATION_PLAYBOOK.md) and the reference [workflow JSON](examples/youtube-team-workflow.json).
 
