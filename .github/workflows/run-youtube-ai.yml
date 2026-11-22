@@ -1,0 +1,41 @@
+name: Run YouTube AI Pipeline
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: Video topic to analyze
+        required: true
+        type: string
+      audience:
+        description: Target audience
+        required: false
+        type: string
+        default: ""
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -e .
+      - name: Create request payload
+        env:
+          TOPIC: ${{ inputs.topic }}
+          AUDIENCE: ${{ inputs.audience }}
+        run: |
+          python - <<'PY'
+          import json, os
+          payload = {"topic": os.environ["TOPIC"], "audience": os.environ["AUDIENCE"], "ai_review": True}
+          with open("pipeline-input.json", "w", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False)
+          PY
+      - name: Run pipeline
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: youtube-pipeline pipeline-input.json --output pipeline-output.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: youtube-pipeline-report
+          path: pipeline-output.json
