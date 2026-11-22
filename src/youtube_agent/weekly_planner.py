@@ -1,5 +1,5 @@
 """Capacity-aware weekly planning from user-provided priorities."""
-from __future__ import annotations__
+from __future__ import annotations
 
 def build_week_plan(tasks: list[dict], capacity: int = 5) -> dict:
     if not isinstance(tasks,list): raise ValueError("tasks must be array")
