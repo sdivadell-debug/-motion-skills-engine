@@ -1,4 +1,4 @@
-import unittest
+import unittest\nfrom unittest.mock import patch
 from youtube_agent.pipeline import execute_pipeline
 
 class PipelineTests(unittest.TestCase):
@@ -21,7 +21,7 @@ class PipelineTests(unittest.TestCase):
         result=execute_pipeline({"topic":"Example"})
         self.assertEqual(result["stages"]["learning_loop"]["status"],"not_executable")
 
-    def test_invalid_topic(self):
+    @patch("youtube_agent.pipeline.generate_json")\n    def test_ai_review_opt_in(self, mock_generate):\n        mock_generate.return_value={"executive_summary":"ok"}\n        result=execute_pipeline({"topic":"Example","ai_review":True})\n        self.assertEqual(result["stages"]["ai_review"]["status"],"complete")\n        self.assertEqual(result["stages"]["ai_review"]["result"]["executive_summary"],"ok")\n        mock_generate.assert_called_once()\n\n    def test_ai_review_is_opt_in(self):\n        result=execute_pipeline({"topic":"Example"})\n        self.assertNotIn("ai_review",result["stages"])\n\n    def test_invalid_topic(self):
         with self.assertRaises(ValueError):
             execute_pipeline({"topic": ""})
 
