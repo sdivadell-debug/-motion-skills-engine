@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "project": "youtube-agent-engine",
+  "skills": [
+    {
+      "id": "channel-profile",
+      "phase": 1,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "research",
+      "phase": 2,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "competitor-research",
+      "phase": 2,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "idea-lab",
+      "phase": 2,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "script-studio",
+      "phase": 2,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "packaging",
+      "phase": 2,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "production-editor",
+      "phase": 3,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "shorts-cutter",
+      "phase": 3,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "seo-publisher",
+      "phase": 3,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "community",
+      "phase": 3,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "analytics",
+      "phase": 3,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "learning-loop",
+      "phase": 4,
+      "status": "implemented_partial"
+    },
+    {
+      "id": "weekly-planner",
+      "phase": 2,
+      "status": "implemented_partial"
+    }
+  ]
+}
