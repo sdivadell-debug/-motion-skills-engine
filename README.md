@@ -24,6 +24,10 @@ python -m pip install -e .
 python -m unittest discover -s tests
 python -m youtube_agent.cli examples/ideas.json
 youtube-competitor-analysis examples/competitor_videos.sample.json
+
+# Optional live collection (requires a YouTube Data API key)
+youtube-competitor-fetch "your niche keyword" --channels 5 --videos-per-channel 15 --output competitor-data.json
+youtube-competitor-analysis competitor-data.json
 ```
 
 The ranking score is a prioritization heuristic, not a prediction of views or virality. Scores are only as reliable as the assessments and evidence supplied.
