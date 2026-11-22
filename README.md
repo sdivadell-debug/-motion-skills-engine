@@ -9,6 +9,8 @@ This project evolves the workflow ideas in [youtube-agent-skill](https://github.
 The first working core provides:
 - transparent weighted scoring for video ideas
 - explicit evidence status and confidence labels
+- channel-normalized competitor outlier analysis using a leave-one-out median baseline
+- documented competitor-data provenance and anti-misinterpretation rules
 - validation of research claims, source URLs, dates, and metric origins
 - a channel profile JSON Schema
 - unit tests for scoring and evidence rules
@@ -24,6 +26,10 @@ python -m youtube_agent.cli examples/ideas.json
 ```
 
 The ranking score is a prioritization heuristic, not a prediction of views or virality. Scores are only as reliable as the assessments and evidence supplied.
+
+## Competitor outlier analysis
+
+The current research core can analyze supplied competitor video records and flag videos that exceed a same-channel median baseline. See [competitor research protocol](docs/COMPETITOR_RESEARCH.md) and the clearly synthetic [sample dataset](examples/competitor_videos.sample.json). Data collection is currently manual or external-source supplied: there is no live YouTube scraper or Data API integration.
 
 ## Core workflow
 
