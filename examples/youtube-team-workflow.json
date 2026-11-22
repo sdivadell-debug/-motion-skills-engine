@@ -1,0 +1,20 @@
+{
+  "name": "youtube-team-workflow",
+  "version": 1,
+  "human_approval_required_for": ["publish", "schedule", "delete", "spend", "send_comment_reply", "change_account_settings"],
+  "stages": [
+    {"skill": "channel-profile", "input": "channel_context", "required": true},
+    {"skill": "research", "input": "topic_and_sources", "required": true},
+    {"skill": "competitor-research", "input": "competitor_records", "required": false},
+    {"skill": "idea-lab", "input": "topic_candidates", "required": true},
+    {"skill": "script-studio", "input": "selected_idea", "required": true, "deliverables": ["script", "3_hooks"]},
+    {"skill": "packaging", "input": "script_and_angle", "required": true, "deliverables": ["3_title_thumbnail_pairs"]},
+    {"skill": "production-editor", "input": "transcript", "required": false, "deliverables": ["timestamped_edit_decision_list"]},
+    {"skill": "shorts-cutter", "input": "transcript", "required": false},
+    {"skill": "seo-publisher", "input": "script_and_timecoded_source", "required": true, "deliverables": ["description", "keywords", "chapters"]},
+    {"skill": "community", "input": "comments", "required": false, "approval": "draft_only"},
+    {"skill": "analytics", "input": "channel_analytics", "required": false},
+    {"skill": "learning-loop", "input": "results_and_evidence", "required": false},
+    {"skill": "weekly-planner", "input": "capacity_and_priorities", "required": true}
+  ]
+}
