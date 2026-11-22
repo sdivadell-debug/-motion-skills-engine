@@ -25,47 +25,47 @@
     {
       "id": "script-studio",
       "phase": 2,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "packaging",
       "phase": 2,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "production-editor",
       "phase": 3,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "shorts-cutter",
       "phase": 3,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "seo-publisher",
       "phase": 3,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "community",
       "phase": 3,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "analytics",
       "phase": 3,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "learning-loop",
       "phase": 4,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "weekly-planner",
       "phase": 2,
-      "status": "planned"
+      "status": "implemented_partial"
     }
   ]
 }
