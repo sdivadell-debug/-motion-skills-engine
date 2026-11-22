@@ -6,6 +6,8 @@ scrape YouTube or claim that sample metrics are live.
 from __future__ import annotations
 
 from collections import defaultdict
+from datetime import date
+import math
 from statistics import median
 from typing import Any
 
@@ -25,7 +27,7 @@ def analyze_outliers(videos: list[dict[str, Any]], threshold: float = 2.0) -> li
     Each channel needs at least two other baseline videos. Incomplete or
     malformed records fail loudly rather than silently becoming evidence.
     """
-    if not isinstance(threshold, (int, float)) or isinstance(threshold, bool) or threshold <= 0:
+    if not isinstance(threshold, (int, float)) or isinstance(threshold, bool) or not math.isfinite(threshold) or threshold <= 0:
         raise ValueError("threshold must be a positive number")
 
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -41,7 +43,11 @@ def analyze_outliers(videos: list[dict[str, Any]], threshold: float = 2.0) -> li
         if not isinstance(item["source_url"], str) or not item["source_url"].startswith(("https://", "http://")):
             raise ValueError("source_url must be an http(s) URL")
         if not isinstance(item["retrieved_at"], str):
-            raise ValueError("retrieved_at must be a date/time string")
+            raise ValueError("retrieved_at must be a YYYY-MM-DD date string")
+        try:
+            date.fromisoformat(item["retrieved_at"][:10])
+        except ValueError as exc:
+            raise ValueError("retrieved_at must begin with a valid YYYY-MM-DD date") from exc
         _positive_int(item["views"], "views")
         key = (item["channel_id"], item["video_id"])
         if key in seen_ids:
@@ -56,16 +62,19 @@ def analyze_outliers(videos: list[dict[str, Any]], threshold: float = 2.0) -> li
             if len(baseline_views) < 2:
                 continue
             baseline = median(baseline_views)
-            multiple = (video["views"] / baseline) if baseline > 0 else (float("inf") if video["views"] > 0 else 0.0)
+            baseline_zero = baseline == 0
+            multiple = (video["views"] / baseline) if baseline > 0 else (None if video["views"] > 0 else 0.0)
+            is_outlier = (video["views"] > 0) if baseline_zero else multiple >= threshold
             results.append({
                 "video_id": video["video_id"],
                 "channel_id": channel_id,
                 "views": video["views"],
                 "baseline_median_views": baseline,
                 "views_multiple": multiple,
-                "is_outlier": multiple >= threshold,
+                "is_outlier": is_outlier,
+                "baseline_zero": baseline_zero,
                 "source_url": video["source_url"],
                 "retrieved_at": video["retrieved_at"],
                 "interpretation": "descriptive_signal_not_causal_explanation",
             })
-    return sorted(results, key=lambda row: row["views_multiple"], reverse=True)
+    return sorted(results, key=lambda row: float("inf") if row["views_multiple"] is None else row["views_multiple"], reverse=True)
