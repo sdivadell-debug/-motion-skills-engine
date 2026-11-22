@@ -4,13 +4,26 @@ An evidence-first operating system for planning, producing, improving, and learn
 
 This project evolves the workflow ideas in [youtube-agent-skill](https://github.com/Jakeschincariol/youtube-agent-skill) into a coordinated system. It is not an unattended publishing bot: the creator stays in control of approvals and publishing.
 
-## Product principles
+## Current MVP
 
-- Evidence before confidence: distinguish measured data, sourced observations, estimates, and hypotheses.
-- One coordinated workflow: research, ideation, scripting, packaging, editing, publishing preparation, and analysis share channel context.
-- Channel-specific learning: recommendations improve from actual performance history, not generic viral formulas.
-- Human approval: no publishing, replying, or irreversible action without explicit approval.
-- Honest capability boundaries: never claim live research, analytics access, or integrations unless configured and verified.
+The first working core provides:
+- transparent weighted scoring for video ideas
+- explicit evidence status and confidence labels
+- validation of research claims, source URLs, dates, and metric origins
+- a channel profile JSON Schema
+- unit tests for scoring and evidence rules
+
+## Run locally
+
+Requires Python 3.10 or newer. No runtime third-party dependencies.
+
+```bash
+python -m pip install -e .
+python -m unittest discover -s tests
+python -m youtube_agent.cli examples/ideas.json
+```
+
+The ranking score is a prioritization heuristic, not a prediction of views or virality. Scores are only as reliable as the assessments and evidence supplied.
 
 ## Core workflow
 
@@ -42,6 +55,6 @@ This project evolves the workflow ideas in [youtube-agent-skill](https://github.
 
 Every research claim should carry a source URL and retrieval date. Every metric should carry its origin and time range. Missing data must be marked as missing; estimates must be labeled. Correlations must not be presented as proven causes.
 
-## Project status
+## Project design
 
-Foundation phase. See [architecture](docs/ARCHITECTURE.md) and [roadmap](docs/ROADMAP.md).
+See [architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md), and [skill registry](config/skills.json).
