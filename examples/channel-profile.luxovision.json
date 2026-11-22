@@ -1,0 +1,33 @@
+{
+  "channel_name": "Luxo vision",
+  "channel_url": "https://youtube.com/@luxovision-24",
+  "niche": "Luxury room transformations and interior makeovers",
+  "primary_audience": "Viewers interested in luxury-looking room makeovers, before-and-after transformations, and satisfying visual room upgrades",
+  "language": "en",
+  "geography": "Not specified",
+  "content_pillars": [
+    "Before-and-after room transformations",
+    "Luxury-inspired interior makeovers",
+    "Satisfying visual room upgrades"
+  ],
+  "formats": [],
+  "goals": [
+    "Grow the Luxo vision audience",
+    "Improve viewer retention and repeat viewing",
+    "Build a consistent, recognizable room-transformation format"
+  ],
+  "constraints": [
+    "Channel niche and audience are provisional, inferred from the public channel description",
+    "Do not invent analytics, retention, click-through rate, or video performance data",
+    "No publishing or account changes without creator approval"
+  ],
+  "voice": {
+    "tone": "Visual, aspirational, concise, and satisfying",
+    "preferred_phrases": [],
+    "avoid": [
+      "Misleading before-and-after claims",
+      "Unsupported performance claims"
+    ],
+    "pacing": "Fast visual opening; clear transformation progression; satisfying final reveal"
+  }
+}
