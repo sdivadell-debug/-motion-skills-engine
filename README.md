@@ -87,3 +87,6 @@ Each specialist's operating instructions are in `skills/<skill-id>/SKILL.md`. Th
 ## Project design
 
 See [architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md), and [skill registry](config/skills.json).
+
+
+## Optional AI workflow review\n\nSet `OPENAI_API_KEY` in your environment and include `ai_review: true` in the JSON payload passed to the workflow pipeline to request an evidence-grounded AI review. The review summarizes the pipeline's supplied results and returns priority actions, risks, recommendation, and evidence gaps. It is opt-in, requires provider access, and does not publish or perform external actions. If no key/provider is available, the review stage is reported as blocked; the rest of the offline workflow remains available.\n
