@@ -20,6 +20,15 @@ Channel Profile -> Research -> Idea Lab -> Script Studio -> Packaging
                                       Channel Profile updates
 ```
 
+## Competitor research adapter
+
+The research layer can collect public competitor uploads through the optional
+YouTube Data API v3 adapter when an API key is configured. It discovers
+channels by keyword, resolves their uploads playlists, retrieves recent video
+statistics, and preserves source URLs and retrieval timestamps. The same
+analysis core also accepts offline JSON records. Live collection is optional;
+API errors, missing public view counts, and quota limits must remain visible.
+
 ## Shared channel context
 
 All skills consume a versioned profile containing channel identity, niche, audience, language, geography, voice, content pillars, formats, cadence, production capacity, goals, constraints, and performance baselines.
