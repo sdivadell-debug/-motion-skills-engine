@@ -6,19 +6,19 @@ This project evolves the workflow ideas in [youtube-agent-skill](https://github.
 
 ## Current MVP
 
-The first working core provides:
+The core provides:
 - transparent weighted scoring for video ideas
 - explicit evidence status and confidence labels
 - channel-normalized competitor outlier analysis using a leave-one-out median baseline
 - documented competitor-data provenance and anti-misinterpretation rules
 - validation of research claims, source URLs, dates, and metric origins
 - a channel profile JSON Schema and dependency-free profile validator
-- a multi-stage workflow orchestrator and JSON workspace memory (planning mode)\n- offline handlers for profile validation, research evidence checks, supplied competitor analysis, idea scoring, script-outline templates, packaging briefs, editing cues, Shorts shortlist heuristics, and metadata drafts
-- unit tests for scoring and evidence rules
+- a multi-stage workflow orchestrator and JSON workspace memory (planning mode)
+- offline handlers for profile validation, research evidence checks, supplied competitor analysis, idea scoring, script-outline templates, packaging briefs, editing cues, Shorts shortlist heuristics, metadata drafts, analytics, learning notes, community review, and weekly planning
 
 ## Run locally
 
-Requires Python 3.10 or newer. No runtime third-party dependencies.
+Requires Python 3.10 or newer.
 
 ```bash
 python -m pip install -e .
@@ -30,15 +30,24 @@ youtube-competitor-analysis examples/competitor_videos.sample.json
 youtube-competitor-fetch "your niche keyword" --channels 5 --videos-per-channel 15 --output competitor-data.json
 youtube-competitor-analysis competitor-data.json
 
-# Generate a coordinated workflow plan (no external actions)
-youtube-workflow-plan "video topic" --output workflow-plan.json\n\n# Execute available offline pipeline stages from a JSON input\nyoutube-pipeline examples/pipeline-input.sample.json --output pipeline-output.json
+# Workflow plan and offline pipeline
+youtube-workflow-plan "video topic" --output workflow-plan.json
+youtube-pipeline examples/pipeline-input.sample.json --output pipeline-output.json
+
+# Optional AI drafts (requires OPENAI_API_KEY)
+youtube-agent-ai script "Video topic" --audience "new viewers" --angle "practical" --output script.json
+youtube-agent-ai ideas "home renovation" --audience "DIY beginners"
 ```
 
-The ranking score is a prioritization heuristic, not a prediction of views or virality. Scores are only as reliable as the assessments and evidence supplied.
+Scoring is a prioritization heuristic, not a prediction of views or virality. Scores are only as reliable as the assessments and evidence supplied.
 
-## Optional AI drafts\n\nAn OpenAI-compatible provider can generate script and idea drafts when configured with an environment API key. See [AI provider setup](docs/AI_PROVIDER.md). Draft generation does not publish or take channel actions.\n\n## Competitor outlier analysis
+## Optional AI drafts
 
-The current research core can analyze supplied competitor video records and flag videos that exceed a same-channel median baseline. See [competitor research protocol](docs/COMPETITOR_RESEARCH.md) and the clearly synthetic [sample dataset](examples/competitor_videos.sample.json). An optional official YouTube Data API v3 collector is now available when `YOUTUBE_DATA_API_KEY` is configured; it is not a web scraper. See [API setup and limits](docs/YOUTUBE_API_SETUP.md).
+An OpenAI-compatible provider can generate script and idea drafts when configured with an environment API key. See [AI provider setup](docs/AI_PROVIDER.md). Draft generation does not publish or take channel actions. The provider accepts JSON object outputs and reports unreadable or invalid responses as errors.
+
+## Competitor research
+
+The core analyzes supplied competitor video records and flags videos that exceed a same-channel median baseline. See [competitor research protocol](docs/COMPETITOR_RESEARCH.md) and the synthetic [sample dataset](examples/competitor_videos.sample.json). An optional official YouTube Data API v3 collector is available when `YOUTUBE_DATA_API_KEY` is configured; it does not scrape YouTube pages. See [API setup and limits](docs/YOUTUBE_API_SETUP.md).
 
 ## Core workflow
 
@@ -49,7 +58,7 @@ The current research core can analyze supplied competitor video records and flag
 5. Prepare production: edit decision list, B-roll cues, Shorts candidates, and quality checks.
 6. Learn from results: compare outcomes with the channel baseline and update recommendations.
 
-## Initial skill map
+## Skill map
 
 | Skill | Responsibility |
 |---|---|
@@ -73,7 +82,7 @@ Every research claim should carry a source URL and retrieval date. Every metric 
 
 ## Skill instructions
 
-Each specialist's operating instructions are in `skills/<skill-id>/SKILL.md`. The skill registry lists the planned status of each component; a written skill contract does not by itself mean its automation is implemented.
+Each specialist's operating instructions are in `skills/<skill-id>/SKILL.md`. The skill registry lists the planned status of each component; written skill instructions do not by themselves mean the automation is implemented.
 
 ## Project design
 
