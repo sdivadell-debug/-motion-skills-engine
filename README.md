@@ -12,7 +12,7 @@ The first working core provides:
 - channel-normalized competitor outlier analysis using a leave-one-out median baseline
 - documented competitor-data provenance and anti-misinterpretation rules
 - validation of research claims, source URLs, dates, and metric origins
-- a channel profile JSON Schema
+- a channel profile JSON Schema and dependency-free profile validator
 - unit tests for scoring and evidence rules
 
 ## Run locally
