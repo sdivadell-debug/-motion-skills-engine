@@ -23,6 +23,7 @@ Requires Python 3.10 or newer. No runtime third-party dependencies.
 python -m pip install -e .
 python -m unittest discover -s tests
 python -m youtube_agent.cli examples/ideas.json
+youtube-competitor-analysis examples/competitor_videos.sample.json
 ```
 
 The ranking score is a prioritization heuristic, not a prediction of views or virality. Scores are only as reliable as the assessments and evidence supplied.
