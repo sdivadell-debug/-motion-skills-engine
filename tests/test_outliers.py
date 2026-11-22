@@ -42,6 +42,19 @@ class OutlierTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             analyze_outliers([], threshold=0)
 
+    def test_zero_baseline_stays_valid_json(self):
+        rows = analyze_outliers([video("a", 0), video("b", 0), video("c", 25)])
+        standout = next(row for row in rows if row["video_id"] == "c")
+        self.assertIsNone(standout["views_multiple"])
+        self.assertTrue(standout["baseline_zero"])
+        self.assertTrue(standout["is_outlier"])
+
+    def test_rejects_invalid_retrieval_date(self):
+        item = video("a", 10)
+        item["retrieved_at"] = "not-a-date"
+        with self.assertRaises(ValueError):
+            analyze_outliers([item])
+
 
 if __name__ == "__main__":
     unittest.main()
