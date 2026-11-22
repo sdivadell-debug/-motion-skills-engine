@@ -1,5 +1,5 @@
 """Draft moderation/reply decisions from user-supplied comment records."""
-from __future__ import annotations__
+from __future__ import annotations
 
 def classify_comments(comments: list[dict]) -> list[dict]:
     if not isinstance(comments,list): raise ValueError("comments must be array")
