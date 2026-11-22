@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/youtube-agent/channel-profile.schema.json",
+  "title": "YouTube Agent Channel Profile",
+  "type": "object",
+  "required": ["channel_name", "niche", "primary_audience", "language", "voice"],
+  "properties": {
+    "channel_name": {"type": "string", "minLength": 1},
+    "channel_url": {"type": "string", "format": "uri"},
+    "niche": {"type": "string", "minLength": 1},
+    "primary_audience": {"type": "string", "minLength": 1},
+    "language": {"type": "string", "minLength": 2},
+    "geography": {"type": "string"},
+    "content_pillars": {"type": "array", "items": {"type": "string"}},
+    "formats": {"type": "array", "items": {"type": "string"}},
+    "publishing_capacity_per_week": {"type": "number", "minimum": 0},
+    "goals": {"type": "array", "items": {"type": "string"}},
+    "constraints": {"type": "array", "items": {"type": "string"}},
+    "voice": {
+      "type": "object",
+      "required": ["tone"],
+      "properties": {
+        "tone": {"type": "string"},
+        "preferred_phrases": {"type": "array", "items": {"type": "string"}},
+        "avoid": {"type": "array", "items": {"type": "string"}},
+        "pacing": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "performance_baseline": {
+      "type": "object",
+      "description": "Only populate from supplied or connected analytics, with date range and source.",
+      "properties": {
+        "source": {"type": "string"},
+        "period_start": {"type": "string", "format": "date"},
+        "period_end": {"type": "string", "format": "date"},
+        "metrics": {"type": "object", "additionalProperties": {"type": "number"}}
+      },
+      "required": ["source", "period_start", "period_end"]
+    }
+  },
+  "additionalProperties": false
+}
