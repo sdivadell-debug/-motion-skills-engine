@@ -5,7 +5,7 @@
     {
       "id": "channel-profile",
       "phase": 1,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "research",
@@ -20,7 +20,7 @@
     {
       "id": "idea-lab",
       "phase": 2,
-      "status": "planned"
+      "status": "implemented_partial"
     },
     {
       "id": "script-studio",
