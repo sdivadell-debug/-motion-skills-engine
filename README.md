@@ -51,6 +51,7 @@ The current research core can analyze supplied competitor video records and flag
 |---|---|
 | channel-profile | Maintain channel context, voice, goals, and constraints |
 | research | Gather and cite current topic and competitor evidence |
+| competitor-research | Discover channels and rank same-channel video outliers |
 | idea-lab | Generate, score, and prioritize video opportunities |
 | script-studio | Develop hooks, structure, and spoken scripts |
 | packaging | Optimize title and thumbnail as one promise |
