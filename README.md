@@ -13,7 +13,7 @@ The first working core provides:
 - documented competitor-data provenance and anti-misinterpretation rules
 - validation of research claims, source URLs, dates, and metric origins
 - a channel profile JSON Schema and dependency-free profile validator
-- a multi-stage workflow orchestrator and JSON workspace memory (planning mode)\n- offline handlers for profile validation, research evidence checks, supplied competitor analysis, and idea scoring
+- a multi-stage workflow orchestrator and JSON workspace memory (planning mode)\n- offline handlers for profile validation, research evidence checks, supplied competitor analysis, idea scoring, script-outline templates, and packaging briefs
 - unit tests for scoring and evidence rules
 
 ## Run locally
