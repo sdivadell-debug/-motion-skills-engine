@@ -89,6 +89,10 @@ Each specialist's operating instructions are in `skills/<skill-id>/SKILL.md`. Th
 See [architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md), and [skill registry](config/skills.json).
 
 
+## External 11-skill integration
+
+The integration playbook maps an 11-specialist YouTube team into these existing engine stages without duplicating skills. It defines deliverables, approval gates, and minimum release checks. See [integration playbook](docs/INTEGRATION_PLAYBOOK.md) and the reference [workflow JSON](examples/youtube-team-workflow.json).
+
 ## Optional AI workflow review
 
 Set `OPENAI_API_KEY` in your environment and include `ai_review: true` in the JSON payload passed to the workflow pipeline to request an evidence-grounded AI review. The review summarizes the pipeline's supplied results and returns priority actions, risks, recommendation, and evidence gaps. It is opt-in, requires provider access, and does not publish or perform external actions. If no key/provider is available, the review stage is reported as blocked; the rest of the offline workflow remains available.
