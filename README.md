@@ -13,6 +13,7 @@ The first working core provides:
 - documented competitor-data provenance and anti-misinterpretation rules
 - validation of research claims, source URLs, dates, and metric origins
 - a channel profile JSON Schema and dependency-free profile validator
+- a multi-stage workflow orchestrator and JSON workspace memory (planning mode)
 - unit tests for scoring and evidence rules
 
 ## Run locally
@@ -28,6 +29,9 @@ youtube-competitor-analysis examples/competitor_videos.sample.json
 # Optional live collection (requires a YouTube Data API key)
 youtube-competitor-fetch "your niche keyword" --channels 5 --videos-per-channel 15 --output competitor-data.json
 youtube-competitor-analysis competitor-data.json
+
+# Generate a coordinated workflow plan (no external actions)
+youtube-workflow-plan "video topic" --output workflow-plan.json
 ```
 
 The ranking score is a prioritization heuristic, not a prediction of views or virality. Scores are only as reliable as the assessments and evidence supplied.
