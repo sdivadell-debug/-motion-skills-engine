@@ -15,21 +15,21 @@ from .learning_loop import create_learning_record
 from .community import classify_comments
 from .weekly_planner import build_week_plan
 from .ai_prompts import pipeline_review_prompt
-from .ai_provider import generate_json, ProviderError
+from .ai_provider import generate_json, ProviderError\nfrom .editorial_tools import generate_hook_variants, draft_chapters, classify_comment
 
 HANDLERS = {
  "channel_profile": lambda d: {"errors":validate_channel_profile(d.get("profile",{})),"valid":not validate_channel_profile(d.get("profile",{}))},
  "research": lambda d: research_brief(d.get("topic",""),d.get("research_items",[])),
  "competitor_research":lambda d:{"results":analyze_outliers(d.get("competitor_videos",[])),"notice":"Supplied data only; no live discovery."},
  "idea_lab":lambda d:{"ranked_ideas":rank_ideas([Idea(**i) for i in d.get("ideas",[])])},
- "script_studio":lambda d:build_script(d["topic"],d.get("audience",""),d.get("angle",""),d.get("research_items",[]),d.get("duration_minutes",8)),
+ "script_studio":lambda d:{"script_outline":build_script(d["topic"],d.get("audience",""),d.get("angle",""),d.get("research_items",[]),d.get("duration_minutes",8)),"hook_variants":generate_hook_variants(d["topic"],d.get("audience",""))},
  "packaging":lambda d:create_packaging_brief(d["topic"],d.get("angle",""),d.get("audience","")),
  "production_editor":lambda d:build_edit_plan(d.get("transcript_segments",[])),
  "shorts_cutter":lambda d:{"candidate_clips":shortlist_clips(d.get("transcript_segments",[]))},
- "seo_publisher":lambda d:draft_metadata(d["topic"],d.get("description_facts",[]),d.get("keywords",[])),
+ "seo_publisher":lambda d:{"metadata":draft_metadata(d["topic"],d.get("description_facts",[]),d.get("keywords",[])),"chapters":draft_chapters(d.get("transcript_segments",[]))},
  "analytics":lambda d:analyze_performance(d.get("performance_videos",[])),
  "learning_loop":lambda d:create_learning_record(d["observation"],d["hypothesis"],d["next_test"],d.get("evidence",[])),
- "community":lambda d:classify_comments(d.get("comments",[])),
+ "community":lambda d:[{**item,"suggested_category":classify_comment(item["text"])} for item in classify_comments(d.get("comments",[]))],
  "weekly_planner":lambda d:build_week_plan(d.get("tasks",[]),d.get("weekly_capacity",5)),
 }
 
