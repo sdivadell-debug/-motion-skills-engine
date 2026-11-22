@@ -13,6 +13,11 @@
       "status": "implemented_partial"
     },
     {
+      "id": "competitor-research",
+      "phase": 2,
+      "status": "implemented_partial"
+    },
+    {
       "id": "idea-lab",
       "phase": 2,
       "status": "planned"
