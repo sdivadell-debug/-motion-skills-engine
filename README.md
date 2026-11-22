@@ -34,7 +34,7 @@ The ranking score is a prioritization heuristic, not a prediction of views or vi
 
 ## Competitor outlier analysis
 
-The current research core can analyze supplied competitor video records and flag videos that exceed a same-channel median baseline. See [competitor research protocol](docs/COMPETITOR_RESEARCH.md) and the clearly synthetic [sample dataset](examples/competitor_videos.sample.json). Data collection is currently manual or external-source supplied: there is no live YouTube scraper or Data API integration.
+The current research core can analyze supplied competitor video records and flag videos that exceed a same-channel median baseline. See [competitor research protocol](docs/COMPETITOR_RESEARCH.md) and the clearly synthetic [sample dataset](examples/competitor_videos.sample.json). An optional official YouTube Data API v3 collector is now available when `YOUTUBE_DATA_API_KEY` is configured; it is not a web scraper. See [API setup and limits](docs/YOUTUBE_API_SETUP.md).
 
 ## Core workflow
 
