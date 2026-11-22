@@ -36,7 +36,7 @@ youtube-workflow-plan "video topic" --output workflow-plan.json\n\n# Execute ava
 
 The ranking score is a prioritization heuristic, not a prediction of views or virality. Scores are only as reliable as the assessments and evidence supplied.
 
-## Competitor outlier analysis
+## Optional AI drafts\n\nAn OpenAI-compatible provider can generate script and idea drafts when configured with an environment API key. See [AI provider setup](docs/AI_PROVIDER.md). Draft generation does not publish or take channel actions.\n\n## Competitor outlier analysis
 
 The current research core can analyze supplied competitor video records and flag videos that exceed a same-channel median baseline. See [competitor research protocol](docs/COMPETITOR_RESEARCH.md) and the clearly synthetic [sample dataset](examples/competitor_videos.sample.json). An optional official YouTube Data API v3 collector is now available when `YOUTUBE_DATA_API_KEY` is configured; it is not a web scraper. See [API setup and limits](docs/YOUTUBE_API_SETUP.md).
 
