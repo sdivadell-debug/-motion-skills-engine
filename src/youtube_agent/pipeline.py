@@ -15,7 +15,8 @@ from .learning_loop import create_learning_record
 from .community import classify_comments
 from .weekly_planner import build_week_plan
 from .ai_prompts import pipeline_review_prompt
-from .ai_provider import generate_json, ProviderError\nfrom .editorial_tools import generate_hook_variants, draft_chapters, classify_comment
+from .ai_provider import generate_json, ProviderError
+from .editorial_tools import generate_hook_variants, draft_chapters, classify_comment
 
 HANDLERS = {
  "channel_profile": lambda d: {"errors":validate_channel_profile(d.get("profile",{})),"valid":not validate_channel_profile(d.get("profile",{}))},
