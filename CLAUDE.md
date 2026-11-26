@@ -9,3 +9,5 @@ For this repository's YouTube workflow, preserve the existing evidence-first app
 For official ChatGPT/OpenAI API references in this project, see `integrations/chatgpt/README.md`. This is documentation and links to official resources, not a local copy of ChatGPT.
 
 For the Roast Room multi-advisor business decision workflow, read `integrations/roast-room/README.md` first. This is an integration guide only; do not claim Roast Room is installed or run setup commands without the user's approval.
+
+For MiroFish swarm-based scenario simulations, read `integrations/mirofish/README.md` first and consult the official upstream repository for current setup details. This is a guide only; do not install or run MiroFish, create accounts, or handle API credentials without the user's separate approval.
