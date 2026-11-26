@@ -11,3 +11,5 @@ For official ChatGPT/OpenAI API references in this project, see `integrations/ch
 For the Roast Room multi-advisor business decision workflow, read `integrations/roast-room/README.md` first. This is an integration guide only; do not claim Roast Room is installed or run setup commands without the user's approval.
 
 For MiroFish swarm-based scenario simulations, read `integrations/mirofish/README.md` first and consult the official upstream repository for current setup details. This is a guide only; do not install or run MiroFish, create accounts, or handle API credentials without the user's separate approval.
+
+For cross-model development workflows using Claude Code and Codex CLI, read `integrations/claudex-loop/README.md` first and consult the official upstream project for current installation and security details. This is documentation only; do not install, authenticate, or execute it without the user's separate approval.
