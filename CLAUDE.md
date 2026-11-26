@@ -7,3 +7,5 @@ Important: the imported skill instructions alone are not the complete runtime. C
 For this repository's YouTube workflow, preserve the existing evidence-first approach and require the creator's approval before publishing or taking external channel actions.
 
 For official ChatGPT/OpenAI API references in this project, see `integrations/chatgpt/README.md`. This is documentation and links to official resources, not a local copy of ChatGPT.
+
+For the Roast Room multi-advisor business decision workflow, read `integrations/roast-room/README.md` first. This is an integration guide only; do not claim Roast Room is installed or run setup commands without the user's approval.
