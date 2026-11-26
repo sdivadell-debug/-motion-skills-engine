@@ -92,3 +92,13 @@ See [architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md), and [skill
 ## Optional AI workflow review
 
 Set `OPENAI_API_KEY` in your environment and include `ai_review: true` in the JSON payload passed to the workflow pipeline to request an evidence-grounded AI review. The review summarizes the pipeline's supplied results and returns priority actions, risks, recommendation, and evidence gaps. It is opt-in, requires provider access, and does not publish or perform external actions. If no key/provider is available, the review stage is reported as blocked; the rest of the offline workflow remains available.
+
+
+## Video editing skill (Claude Code)
+
+A discoverable AskEditor video-editing skill is included here:
+- Claude Code entry point: `.claude/skills/video-editing/SKILL.md`
+- Project skill copy: `skills/video-editing/SKILL.md`
+- Setup and upstream/runtime notes: `skills/video-editing/README.md`
+
+It covers talking-head editing, captions, B-roll, color grading, music, sound effects, motion graphics, and social-video framing. **Only the skill instructions and attribution files are imported so far; the complete upstream runtime package is not included.** Read the folder README before attempting to run it.
