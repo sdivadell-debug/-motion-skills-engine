@@ -29,7 +29,7 @@ Turn verified channel analytics into careful, useful decisions. Separate measure
 2. Fetch read-only per-video metrics when OAuth is configured; otherwise analyze supplied CSV/JSON/Studio exports and clearly state that no live connection was made.
 3. Keep Shorts, long-form, and live videos in separate cohorts. Compare only similar publication-age windows; do not compare lifetime totals with first-7-day results.
 4. Review views, impressions/CTR when supplied, watch time, average view duration, average view percentage, likes, comments, shares, and subscribers gained only when present.
-5. For a selected video, inspect the audience-retention curve using elapsed video time, audience watch ratio, and relative retention performance when available.
+5. For a selected video, inspect the audience-retention curve using elapsed video time, audience watch ratio, and relative retention performance when available. Use `summarize_retention_curve` to locate the steepest observed drop; do not claim it explains why viewers left.
 6. Fetch channel or single-video traffic-source categories with `fetch_traffic_sources` when authorized. Explain that the API returns supported source categories, not necessarily every detailed referrer.
 7. Build cohort baselines using the median. Require at least three comparable videos by default; mark smaller cohorts as insufficient rather than drawing a strong conclusion.
 8. Identify observable patterns (for example, a retention drop at a timestamp) separately from possible explanations (hypotheses).
