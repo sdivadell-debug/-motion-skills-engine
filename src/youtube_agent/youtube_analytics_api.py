@@ -33,7 +33,7 @@ def query_report(access_token: str, start_date: str, end_date: str,
     if not isinstance(access_token, str) or not access_token.strip():
         raise ValueError("A valid OAuth access token is required.")
     for value in (start_date, end_date):
-        if not isinstance(value, str) or not re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", value):
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\\d{2}-\\d{2}", value):
             raise ValueError("Dates must use YYYY-MM-DD.")
     if start_date > end_date:
         raise ValueError("start_date must not be after end_date.")
