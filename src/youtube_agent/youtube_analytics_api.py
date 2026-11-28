@@ -162,7 +162,7 @@ def fetch_video_performance(access_token: str, video_ids: list[str],
         "video_count": len(videos),
         "notes": [
             "Video IDs are used as labels; add verified titles and formats before cohort comparison.",
-            "CTR and traffic-source metrics are not included in this API request.",
+            "CTR is not included in this API request; fetch traffic-source categories separately with fetch_traffic_sources.",
         ],
     }
 
