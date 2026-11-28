@@ -46,6 +46,10 @@ class AnalyticsTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             analyze_performance([{"views": 20}])
 
+    def test_views_are_required(self):
+        with self.assertRaises(ValueError):
+            analyze_performance([{"title": "No views"}])
+
 
 class YouTubeAnalyticsApiTests(unittest.TestCase):
     @patch("youtube_agent.youtube_analytics_api.urlopen")
