@@ -30,7 +30,7 @@ Turn verified channel analytics into careful, useful decisions. Separate measure
 3. Keep Shorts, long-form, and live videos in separate cohorts. Compare only similar publication-age windows; do not compare lifetime totals with first-7-day results.
 4. Review views, impressions/CTR when supplied, watch time, average view duration, average view percentage, likes, comments, shares, and subscribers gained only when present.
 5. For a selected video, inspect the audience-retention curve using elapsed video time, audience watch ratio, and relative retention performance when available.
-6. Review traffic sources only when supplied by a supported report/export. Never imply that the current adapter fetched traffic-source data if it did not.
+6. Fetch channel or single-video traffic-source categories with `fetch_traffic_sources` when authorized. Explain that the API returns supported source categories, not necessarily every detailed referrer.
 7. Build cohort baselines using the median. Require at least three comparable videos by default; mark smaller cohorts as insufficient rather than drawing a strong conclusion.
 8. Identify observable patterns (for example, a retention drop at a timestamp) separately from possible explanations (hypotheses).
 9. Recommend one or two measurable experiments with a metric, comparison window, and success criterion. Do not claim an experiment caused an outcome without suitable evidence.
