@@ -1,7 +1,7 @@
 # YouTube Analytics setup (read-only)
 
 ## What this integration does
-The optional adapter in `src/youtube_agent/youtube_analytics_api.py` calls YouTube Analytics API v2 for:
+The optional adapter in `src/youtube_agent/youtube_analytics_api.py` calls YouTube Analytics API v2 for supplied video IDs (it does not enumerate channel uploads) and retrieves:
 - per-video views, watch time, average view duration, average view percentage, likes, comments, shares, and subscribers gained;
 - an individual video's audience-retention curve.
 
@@ -33,7 +33,8 @@ from youtube_agent.youtube_analytics_api import (
 
 # Read the token from your secret manager/environment in the calling application.
 token = obtain_access_token_securely()
-performance = fetch_video_performance(token, "2026-01-01", "2026-01-31")
+video_ids = ["VIDEO_ID_1", "VIDEO_ID_2"]  # supplied by the channel owner
+performance = fetch_video_performance(token, video_ids, "2026-01-01", "2026-01-31")
 retention = fetch_video_retention(token, "VIDEO_ID", "2026-01-01", "2026-01-31")
 ```
 
