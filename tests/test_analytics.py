@@ -2,7 +2,7 @@ import json
 import unittest
 from unittest.mock import patch
 
-from youtube_agent.analytics import analyze_performance
+from youtube_agent.analytics import analyze_performance, summarize_retention_curve
 from youtube_agent.youtube_analytics_api import (
     query_report, fetch_video_retention, fetch_video_performance,
     fetch_channel_summary, fetch_traffic_sources,
@@ -50,6 +50,15 @@ class AnalyticsTests(unittest.TestCase):
     def test_views_are_required(self):
         with self.assertRaises(ValueError):
             analyze_performance([{"title": "No views"}])
+
+    def test_retention_curve_reports_location_without_claiming_cause(self):
+        result = summarize_retention_curve([
+            {"elapsed_video_time_ratio": 0.5, "audience_watch_ratio": 0.4},
+            {"elapsed_video_time_ratio": 0.0, "audience_watch_ratio": 1.0},
+            {"elapsed_video_time_ratio": 0.8, "audience_watch_ratio": 0.2},
+        ])
+        self.assertEqual(result["largest_observed_drop"]["from_elapsed_ratio"], 0.5)
+        self.assertIn("not why", result["notes"][1])
 
 
 class YouTubeAnalyticsApiTests(unittest.TestCase):
