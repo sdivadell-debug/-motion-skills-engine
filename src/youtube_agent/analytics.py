@@ -50,7 +50,7 @@ def analyze_performance(videos: list[dict], min_comparison_sample: int = 3) -> d
         if video.get("views") is None:
             raise ValueError(f"video {i} missing views")
         for field in METRIC_FIELDS:
-            maximum = 100 if field in ("ctr", "average_view_percentage") else None
+            maximum = 100 if field == "ctr" else None
             video[field] = _number(video.get(field), field, i, maximum=maximum)
         video["format"] = str(video.get("format") or "unspecified").lower()
         age = video.get("age_window_days", "unspecified")
@@ -119,4 +119,41 @@ def analyze_performance(videos: list[dict], min_comparison_sample: int = 3) -> d
         "cohort_baselines": cohort_baselines,
         "videos": checked,
         "notes": notes,
+    }
+
+
+def summarize_retention_curve(points: list[dict]) -> dict:
+    """Summarize a supplied YouTube retention curve without assigning causes."""
+    if not isinstance(points, list):
+        raise ValueError("retention points must be an array")
+    checked = []
+    for index, point in enumerate(points):
+        if not isinstance(point, dict):
+            raise ValueError(f"retention point {index} must be an object")
+        elapsed = point.get("elapsed_video_time_ratio")
+        audience = point.get("audience_watch_ratio")
+        if isinstance(elapsed, bool) or not isinstance(elapsed, (int, float)) or not 0 <= elapsed <= 1:
+            raise ValueError(f"retention point {index}: elapsed_video_time_ratio must be between 0 and 1")
+        if isinstance(audience, bool) or not isinstance(audience, (int, float)) or audience < 0:
+            raise ValueError(f"retention point {index}: audience_watch_ratio must be nonnegative")
+        checked.append(dict(point))
+    checked.sort(key=lambda item: item["elapsed_video_time_ratio"])
+    drops = []
+    for previous, current in zip(checked, checked[1:]):
+        drop = previous["audience_watch_ratio"] - current["audience_watch_ratio"]
+        if drop > 0:
+            drops.append({
+                "from_elapsed_ratio": previous["elapsed_video_time_ratio"],
+                "to_elapsed_ratio": current["elapsed_video_time_ratio"],
+                "absolute_ratio_drop": round(drop, 4),
+            })
+    largest_drop = max(drops, key=lambda item: item["absolute_ratio_drop"]) if drops else None
+    return {
+        "point_count": len(checked),
+        "largest_observed_drop": largest_drop,
+        "drops": drops,
+        "notes": [
+            "Audience watch ratio can exceed 1 when viewers replay segments.",
+            "A drop identifies where the curve falls, not why viewers left.",
+        ],
     }
