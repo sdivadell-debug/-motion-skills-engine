@@ -32,15 +32,19 @@ def query_report(access_token: str, start_date: str, end_date: str,
                  filters: str | None = None, max_results: int = 200) -> dict:
     if not isinstance(access_token, str) or not access_token.strip():
         raise ValueError("A valid OAuth access token is required.")
-    for value in (start_date, end_date):
-        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+    for date_value in (start_date, end_date):
+        if not isinstance(date_value, str) or not re.fullmatch("[0-9]{4}-[0-9]{2}-[0-9]{2}", date_value):
             raise ValueError("Dates must use YYYY-MM-DD.")
+        try:
+            datetime.strptime(date_value, "%Y-%m-%d")
+        except ValueError as exc:
+            raise ValueError("Dates must be valid calendar dates.") from exc
     if start_date > end_date:
         raise ValueError("start_date must not be after end_date.")
-    if not metrics or any(m not in ALLOWED_METRICS for m in metrics):
+    if not isinstance(metrics, list) or not metrics or any(m not in ALLOWED_METRICS for m in metrics):
         raise ValueError("One or more metrics are unsupported or not allowlisted.")
     dimensions = dimensions or []
-    if any(d not in ALLOWED_DIMENSIONS for d in dimensions):
+    if not isinstance(dimensions, list) or any(d not in ALLOWED_DIMENSIONS for d in dimensions):
         raise ValueError("One or more dimensions are not allowlisted.")
     if isinstance(max_results, bool) or not isinstance(max_results, int) or not 1 <= max_results <= 200:
         raise ValueError("max_results must be between 1 and 200.")
@@ -55,7 +59,7 @@ def query_report(access_token: str, start_date: str, end_date: str,
     if dimensions:
         params["dimensions"] = ",".join(dimensions)
     if filters:
-        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        if not isinstance(filters, str) or not re.fullmatch("video==[A-Za-z0-9_-]+", filters):
             raise ValueError("Only a single video==VIDEO_ID filter is supported.")
         params["filters"] = filters
 
@@ -96,7 +100,7 @@ def fetch_video_performance(access_token: str, video_ids: list[str],
     if not isinstance(video_ids, list) or not video_ids:
         raise ValueError("Provide one or more video IDs.")
     if len(video_ids) > 50 or any(
-        not isinstance(video_id, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", video_id)
+        not isinstance(video_id, str) or not re.fullmatch("[A-Za-z0-9_-]+", video_id)
         for video_id in video_ids
     ):
         raise ValueError("Provide 1 to 50 valid video IDs.")
@@ -136,10 +140,11 @@ def fetch_video_performance(access_token: str, video_ids: list[str],
         ],
     }
 
+
 def fetch_video_retention(access_token: str, video_id: str,
                           start_date: str, end_date: str) -> dict:
     """Fetch the audience-retention curve for exactly one owned video."""
-        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+    if not isinstance(video_id, str) or not re.fullmatch("[A-Za-z0-9_-]+", video_id):
         raise ValueError("video_id is invalid.")
     report = query_report(
         access_token, start_date, end_date,
