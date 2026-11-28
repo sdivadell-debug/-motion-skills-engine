@@ -4,7 +4,8 @@ from unittest.mock import patch
 
 from youtube_agent.analytics import analyze_performance
 from youtube_agent.youtube_analytics_api import (
-    query_report, fetch_video_retention, YouTubeAnalyticsError,
+    query_report, fetch_video_retention, fetch_video_performance,
+    fetch_channel_summary, fetch_traffic_sources,
 )
 
 
@@ -71,6 +72,31 @@ class YouTubeAnalyticsApiTests(unittest.TestCase):
     def test_rejects_write_or_monetary_metric(self):
         with self.assertRaises(ValueError):
             query_report("token", "2026-01-01", "2026-01-07", ["estimatedRevenue"])
+
+
+    @patch("youtube_agent.youtube_analytics_api.query_report")
+    def test_traffic_source_report_uses_supported_dimension(self, mock_query):
+        mock_query.return_value = {"rows": [{"insightTrafficSourceType": "YT_SEARCH"}]}
+        result = fetch_traffic_sources("token", "2026-01-01", "2026-01-07")
+        self.assertEqual(result["rows"][0]["insightTrafficSourceType"], "YT_SEARCH")
+        self.assertEqual(mock_query.call_args.kwargs["dimensions"], ["insightTrafficSourceType"])
+
+    @patch("youtube_agent.youtube_analytics_api.query_report")
+    def test_video_metrics_are_mapped_for_analysis(self, mock_query):
+        mock_query.return_value = {
+            "rows": [{"views": 123, "averageViewPercentage": 44.5}],
+            "source": "youtube-analytics-api",
+        }
+        result = fetch_video_performance("token", ["abc123"], "2026-01-01", "2026-01-07")
+        self.assertEqual(result["videos"][0]["views"], 123)
+        self.assertEqual(result["videos"][0]["video_id"], "abc123")
+
+    @patch("youtube_agent.youtube_analytics_api.query_report")
+    def test_channel_summary_requests_only_non_monetary_metrics(self, mock_query):
+        mock_query.return_value = {"rows": []}
+        fetch_channel_summary("token", "2026-01-01", "2026-01-07")
+        requested = mock_query.call_args.kwargs["metrics"]
+        self.assertNotIn("estimatedRevenue", requested)
 
     def test_retention_requires_one_video_id(self):
         with self.assertRaises(ValueError):
