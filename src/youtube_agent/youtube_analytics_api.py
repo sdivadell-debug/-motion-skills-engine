@@ -20,7 +20,7 @@ ALLOWED_METRICS = {
     "subscribersLost", "audienceWatchRatio", "relativeRetentionPerformance",
     "startedWatching", "stoppedWatching", "totalSegmentImpressions",
 }
-ALLOWED_DIMENSIONS = {"video", "day", "month", "elapsedVideoTimeRatio", "creatorContentType"}
+ALLOWED_DIMENSIONS = {"video", "day", "month", "elapsedVideoTimeRatio", "creatorContentType", "insightTrafficSourceType", "insightTrafficSourceDetail"}
 
 
 class YouTubeAnalyticsError(RuntimeError):
@@ -92,6 +92,32 @@ def query_report(access_token: str, start_date: str, end_date: str,
         "retrieved_at": datetime.now(timezone.utc).isoformat(),
         "source": API_URL,
     }
+
+
+def fetch_channel_summary(access_token: str, start_date: str, end_date: str) -> dict:
+    """Fetch aggregate channel activity for a reporting window."""
+    return query_report(
+        access_token, start_date, end_date,
+        metrics=["views", "estimatedMinutesWatched", "averageViewDuration",
+                 "averageViewPercentage", "likes", "comments", "shares",
+                 "subscribersGained"],
+    )
+
+
+def fetch_traffic_sources(access_token: str, start_date: str, end_date: str,
+                          video_id: str | None = None) -> dict:
+    """Fetch channel or single-video traffic-source categories."""
+    filters = None
+    if video_id is not None:
+        if not isinstance(video_id, str) or not re.fullmatch("[A-Za-z0-9_-]+", video_id):
+            raise ValueError("video_id is invalid.")
+        filters = f"video=={video_id}"
+    return query_report(
+        access_token, start_date, end_date,
+        metrics=["views", "engagedViews", "estimatedMinutesWatched"],
+        dimensions=["insightTrafficSourceType"],
+        filters=filters,
+    )
 
 
 def fetch_video_performance(access_token: str, video_ids: list[str],
