@@ -3,7 +3,8 @@
 ## What this integration does
 The optional adapter in `src/youtube_agent/youtube_analytics_api.py` calls YouTube Analytics API v2 for supplied video IDs (it does not enumerate channel uploads) and retrieves:
 - per-video views, watch time, average view duration, average view percentage, likes, comments, shares, and subscribers gained;
-- an individual video's audience-retention curve.
+- an individual video's audience-retention curve;
+- channel-level or single-video traffic-source categories.
 
 It does not publish or modify channel content.
 
@@ -21,20 +22,24 @@ Google does not support service-account or device authorization flows for the Yo
 
 ## CTR and traffic sources limitations
 - The YouTube Analytics API v2 metric list used by this project does not provide YouTube Studio's video-thumbnail impressions CTR. Import CTR from a verified YouTube Studio export when needed; record its source and date.
-- Traffic-source breakdowns are not currently fetched by the adapter. Do not infer them. Add a separate supported report only after checking the current API report compatibility tables.
+- Traffic-source categories are fetched with the official supported report. Detailed referrer rows are not included in this first version; do not infer them.
 - No revenue metrics are requested.
 
 ## Example (Python)
 ```python
 from youtube_agent.youtube_analytics_api import (
+    fetch_channel_summary,
     fetch_video_performance,
     fetch_video_retention,
+    fetch_traffic_sources,
 )
 
 # Read the token from your secret manager/environment in the calling application.
 token = obtain_access_token_securely()
 video_ids = ["VIDEO_ID_1", "VIDEO_ID_2"]  # supplied by the channel owner
+summary = fetch_channel_summary(token, "2026-01-01", "2026-01-31")
 performance = fetch_video_performance(token, video_ids, "2026-01-01", "2026-01-31")
+traffic = fetch_traffic_sources(token, "2026-01-01", "2026-01-31")
 retention = fetch_video_retention(token, "VIDEO_ID", "2026-01-01", "2026-01-31")
 ```
 
