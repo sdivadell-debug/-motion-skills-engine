@@ -41,9 +41,14 @@ def analyze_performance(videos: list[dict], min_comparison_sample: int = 3) -> d
     for i, original in enumerate(videos):
         if not isinstance(original, dict):
             raise ValueError(f"video {i} must be object")
-        if not isinstance(original.get("title"), str) or not original["title"].strip():
-            raise ValueError(f"video {i} missing a non-empty title")
         video = dict(original)
+        if not isinstance(video.get("title"), str) or not video["title"].strip():
+            fallback = video.get("video_id")
+            if not isinstance(fallback, str) or not fallback.strip():
+                raise ValueError(f"video {i} needs a non-empty title or video_id")
+            video["title"] = fallback
+        if video.get("views") is None:
+            raise ValueError(f"video {i} missing views")
         for field in METRIC_FIELDS:
             maximum = 100 if field in ("ctr", "average_view_percentage") else None
             video[field] = _number(video.get(field), field, i, maximum=maximum)
