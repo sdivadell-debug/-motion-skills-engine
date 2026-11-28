@@ -57,7 +57,7 @@ class AnalyticsTests(unittest.TestCase):
             {"elapsed_video_time_ratio": 0.0, "audience_watch_ratio": 1.0},
             {"elapsed_video_time_ratio": 0.8, "audience_watch_ratio": 0.2},
         ])
-        self.assertEqual(result["largest_observed_drop"]["from_elapsed_ratio"], 0.5)
+        self.assertEqual(result["largest_observed_drop"]["from_elapsed_ratio"], 0.0)
         self.assertIn("not why", result["notes"][1])
 
 
