@@ -90,18 +90,26 @@ def query_report(access_token: str, start_date: str, end_date: str,
     }
 
 
-def fetch_video_performance(access_token: str, start_date: str, end_date: str) -> dict:
-    """Fetch per-video watch and engagement metrics for the authenticated channel."""
-    report = query_report(
-        access_token, start_date, end_date,
-        metrics=["views", "estimatedMinutesWatched", "averageViewDuration",
-                 "averageViewPercentage", "likes", "comments", "shares", "subscribersGained"],
-        dimensions=["video"],
-    )
-    normalized = []
-    for row in report["rows"]:
-        video_id = str(row.get("video", ""))
-        normalized.append({
+def fetch_video_performance(access_token: str, video_ids: list[str],
+                            start_date: str, end_date: str) -> dict:
+    """Fetch metrics for caller-supplied video IDs (one supported report per video)."""
+    if not isinstance(video_ids, list) or not video_ids:
+        raise ValueError("Provide one or more video IDs.")
+    if len(video_ids) > 50 or any(
+        not isinstance(video_id, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", video_id)
+        for video_id in video_ids
+    ):
+        raise ValueError("Provide 1 to 50 valid video IDs.")
+    videos = []
+    for video_id in video_ids:
+        report = query_report(
+            access_token, start_date, end_date,
+            metrics=["views", "estimatedMinutesWatched", "averageViewDuration",
+                     "averageViewPercentage", "likes", "comments", "shares", "subscribersGained"],
+            filters=f"video=={video_id}",
+        )
+        row = report["rows"][0] if report["rows"] else {}
+        videos.append({
             "video_id": video_id,
             "title": video_id,
             "views": row.get("views"),
@@ -115,13 +123,18 @@ def fetch_video_performance(access_token: str, start_date: str, end_date: str) -
             "format": "unspecified",
             "metric_sources": {"analytics_api": report["source"]},
         })
-    report["videos"] = normalized
-    report["notes"] = [
-        "Video IDs are used as labels; add verified titles and formats before cohort comparison.",
-        "CTR and traffic-source metrics are not included in this API request.",
-    ]
-    return report
-
+    return {
+        "kind": "youtube_analytics_api_v2",
+        "start_date": start_date,
+        "end_date": end_date,
+        "retrieved_at": datetime.now(timezone.utc).isoformat(),
+        "videos": videos,
+        "video_count": len(videos),
+        "notes": [
+            "Video IDs are used as labels; add verified titles and formats before cohort comparison.",
+            "CTR and traffic-source metrics are not included in this API request.",
+        ],
+    }
 
 def fetch_video_retention(access_token: str, video_id: str,
                           start_date: str, end_date: str) -> dict:
