@@ -33,7 +33,7 @@ def query_report(access_token: str, start_date: str, end_date: str,
     if not isinstance(access_token, str) or not access_token.strip():
         raise ValueError("A valid OAuth access token is required.")
     for value in (start_date, end_date):
-        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\\d{2}-\\d{2}", value):
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
             raise ValueError("Dates must use YYYY-MM-DD.")
     if start_date > end_date:
         raise ValueError("start_date must not be after end_date.")
@@ -55,7 +55,7 @@ def query_report(access_token: str, start_date: str, end_date: str,
     if dimensions:
         params["dimensions"] = ",".join(dimensions)
     if filters:
-        if not re.fullmatch(r"video==[A-Za-z0-9_-]+", filters):
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
             raise ValueError("Only a single video==VIDEO_ID filter is supported.")
         params["filters"] = filters
 
@@ -126,7 +126,7 @@ def fetch_video_performance(access_token: str, start_date: str, end_date: str) -
 def fetch_video_retention(access_token: str, video_id: str,
                           start_date: str, end_date: str) -> dict:
     """Fetch the audience-retention curve for exactly one owned video."""
-    if not isinstance(video_id, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", video_id):
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
         raise ValueError("video_id is invalid.")
     report = query_report(
         access_token, start_date, end_date,
