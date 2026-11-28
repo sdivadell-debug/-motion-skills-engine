@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import re
+from datetime import datetime, timezone
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -32,7 +33,7 @@ def query_report(access_token: str, start_date: str, end_date: str,
     if not isinstance(access_token, str) or not access_token.strip():
         raise ValueError("A valid OAuth access token is required.")
     for value in (start_date, end_date):
-        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        if not isinstance(value, str) or not re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", value):
             raise ValueError("Dates must use YYYY-MM-DD.")
     if start_date > end_date:
         raise ValueError("start_date must not be after end_date.")
@@ -54,7 +55,6 @@ def query_report(access_token: str, start_date: str, end_date: str,
     if dimensions:
         params["dimensions"] = ",".join(dimensions)
     if filters:
-        # Filter is deliberately restricted to a single video ID to avoid arbitrary query fragments.
         if not re.fullmatch(r"video==[A-Za-z0-9_-]+", filters):
             raise ValueError("Only a single video==VIDEO_ID filter is supported.")
         params["filters"] = filters
@@ -85,19 +85,42 @@ def query_report(access_token: str, start_date: str, end_date: str,
         "metrics": metrics,
         "rows": rows,
         "row_count": len(rows),
-        "retrieved_at": payload.get("retrievedAt"),
+        "retrieved_at": datetime.now(timezone.utc).isoformat(),
         "source": API_URL,
     }
 
 
 def fetch_video_performance(access_token: str, start_date: str, end_date: str) -> dict:
     """Fetch per-video watch and engagement metrics for the authenticated channel."""
-    return query_report(
+    report = query_report(
         access_token, start_date, end_date,
         metrics=["views", "estimatedMinutesWatched", "averageViewDuration",
                  "averageViewPercentage", "likes", "comments", "shares", "subscribersGained"],
         dimensions=["video"],
     )
+    normalized = []
+    for row in report["rows"]:
+        video_id = str(row.get("video", ""))
+        normalized.append({
+            "video_id": video_id,
+            "title": video_id,
+            "views": row.get("views"),
+            "watch_time_minutes": row.get("estimatedMinutesWatched"),
+            "average_view_duration_seconds": row.get("averageViewDuration"),
+            "average_view_percentage": row.get("averageViewPercentage"),
+            "likes": row.get("likes"),
+            "comments": row.get("comments"),
+            "shares": row.get("shares"),
+            "subscribers_gained": row.get("subscribersGained"),
+            "format": "unspecified",
+            "metric_sources": {"analytics_api": report["source"]},
+        })
+    report["videos"] = normalized
+    report["notes"] = [
+        "Video IDs are used as labels; add verified titles and formats before cohort comparison.",
+        "CTR and traffic-source metrics are not included in this API request.",
+    ]
+    return report
 
 
 def fetch_video_retention(access_token: str, video_id: str,
@@ -105,10 +128,23 @@ def fetch_video_retention(access_token: str, video_id: str,
     """Fetch the audience-retention curve for exactly one owned video."""
     if not isinstance(video_id, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", video_id):
         raise ValueError("video_id is invalid.")
-    return query_report(
+    report = query_report(
         access_token, start_date, end_date,
         metrics=["audienceWatchRatio", "relativeRetentionPerformance",
                  "startedWatching", "stoppedWatching", "totalSegmentImpressions"],
         dimensions=["elapsedVideoTimeRatio"],
         filters=f"video=={video_id}",
     )
+    report["video_id"] = video_id
+    report["retention_curve"] = [
+        {
+            "elapsed_video_time_ratio": row.get("elapsedVideoTimeRatio"),
+            "audience_watch_ratio": row.get("audienceWatchRatio"),
+            "relative_retention_performance": row.get("relativeRetentionPerformance"),
+            "started_watching": row.get("startedWatching"),
+            "stopped_watching": row.get("stoppedWatching"),
+            "segment_impressions": row.get("totalSegmentImpressions"),
+        }
+        for row in report["rows"]
+    ]
+    return report
